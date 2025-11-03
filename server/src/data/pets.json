@@ -20,10 +20,11 @@
   },
   {
     "id": 2,
-    "name": "Miry",
+    "name": "Bruno",
     "type": "Dog",
-    "breed": "Birmanea",
-    "age": 22,
-    "medicalFiles": []
+    "breed": "Caucasian",
+    "age": 5,
+    "medicalFiles": [],
+    "image": "1762178668497-963782437-shutterstock_772571353.jpg"
   }
 ]

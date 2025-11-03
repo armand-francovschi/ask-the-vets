@@ -1,5 +1,4 @@
 import { useUpdateMedical } from "../components/UpdateMedical/functions/useUpdateMedical";
-import UserSelector from "../components/UpdateMedical/functions/UserSelector";
 import PetCarousel from "../components/UpdateMedical/elements/PetCarousel";
 import SelectedPetInfo from "../components/UpdateMedical/elements/SelectedPetInfo";
 import PetModal from "../components/UpdateMedical/elements/PetModal";
@@ -9,8 +8,7 @@ import UploadSuccessNotification from "../components/UpdateMedical/functions/Upl
 
 export default function UpdateMedical() {
   const {
-    users,
-    selectedUser,
+    filteredPets,
     selectedPet,
     newPet,
     isAddModalOpen,
@@ -18,15 +16,13 @@ export default function UpdateMedical() {
     isRemoveModalOpen,
     uploadSuccess,
     previewFile,
-    setUploadSuccess,
-    filteredPets,
     setSelectedPet,
     setNewPet,
     setIsAddModalOpen,
     setIsEditModalOpen,
     setIsRemoveModalOpen,
+    setUploadSuccess,
     setPreviewFile,
-    handleUserChange,
     handleAddPet,
     handleEditPet,
     handleRemovePet,
@@ -39,9 +35,6 @@ export default function UpdateMedical() {
       <h1 className="text-3xl font-bold text-primary-dark mb-4">
         Update Your Pet(s) Medical Info
       </h1>
-
-      {/* User Selector */}
-      <UserSelector users={users} selectedUser={selectedUser} onChange={handleUserChange} />
 
       {/* Pet Carousel */}
       <PetCarousel
@@ -66,7 +59,12 @@ export default function UpdateMedical() {
       {uploadSuccess && (
         <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />
       )}
-      {previewFile && <MedicalFilePreview fileUrl={previewFile} onClose={() => setPreviewFile(null)} />}
+      {previewFile && (
+        <MedicalFilePreview
+          fileUrl={previewFile}
+          onClose={() => setPreviewFile(null)}
+        />
+      )}
 
       {/* Add Pet Modal */}
       {isAddModalOpen && (

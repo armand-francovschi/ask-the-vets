@@ -12,5 +12,6 @@ export interface User {
   id: number;
   name: string;
   role: "user" | "doctor";
-  pets: number[];
+  image?: string;
+  pets?: number[];
 }

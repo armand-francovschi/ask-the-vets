@@ -3,4 +3,5 @@ export interface User {
   name: string;
   role: "user" | "doctor";
   pets?: number[];
+  image?: string;
 }

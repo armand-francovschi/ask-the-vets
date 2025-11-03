@@ -1,20 +1,22 @@
 [
   {
     "id": 1,
-    "name": "John Doe",
+    "name": "Armand",
+    "email": "1243@123.com",
+    "password": "$2b$10$Y3lCQFYK19aGKEeBISm7g.YmzaZODSAcHZHe8C8J7txUT/0qElLUW",
     "role": "user",
     "pets": [
-      6,
       1,
       2
-    ]
+    ],
+    "image": "1762174478244-137762080-pexels-pixabay-45201.jpg"
   },
   {
     "id": 2,
-    "name": "Dr. Smith",
-    "role": "doctor",
-    "pets": [
-      5
-    ]
+    "name": "123",
+    "email": "12243@123.com",
+    "password": "$2b$10$64TQwO97nXD7mG.6ddllK.FZAWi3HzAl58v1ljRAo0YpJ4zWtGCMy",
+    "role": "user",
+    "pets": []
   }
 ]
