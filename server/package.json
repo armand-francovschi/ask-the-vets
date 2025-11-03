@@ -1,0 +1,23 @@
+{
+  "name": "ask-the-vets-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --watch \"src/**/*.ts\" --exec node --loader ts-node/esm src/index.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.17",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^20.5.1",
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

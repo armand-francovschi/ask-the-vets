@@ -1,0 +1,20 @@
+[
+  {
+    "id": 5,
+    "name": "Smith_pisica2",
+    "type": "Cat",
+    "breed": "Alaska",
+    "age": 41,
+    "medicalFiles": [],
+    "image": "1762129618656-903372798-047-DSCF0487.jpg"
+  },
+  {
+    "id": 6,
+    "name": "SlooW",
+    "type": "Dog",
+    "breed": "123",
+    "age": 3,
+    "medicalFiles": [],
+    "image": "1762129746136-436696928-059-DSCF0563.jpg"
+  }
+]
