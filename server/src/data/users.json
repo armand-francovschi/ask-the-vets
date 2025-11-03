@@ -4,7 +4,9 @@
     "name": "John Doe",
     "role": "user",
     "pets": [
-      6
+      6,
+      1,
+      2
     ]
   },
   {

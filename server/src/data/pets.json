@@ -1,20 +1,29 @@
 [
   {
-    "id": 5,
-    "name": "Smith_pisica2",
+    "id": 1,
+    "name": "Miry",
     "type": "Cat",
-    "breed": "Alaska",
-    "age": 41,
-    "medicalFiles": [],
-    "image": "1762129618656-903372798-047-DSCF0487.jpg"
+    "breed": "Birmanea",
+    "age": 22,
+    "medicalFiles": [
+      "1762156818900-367456275-Armand Francovschi.pdf",
+      "1762162416577-414873460-machineonly.pdf",
+      "1762162431080-29034748-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs.torrent",
+      "1762162433827-895588938-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs.torrent",
+      "1762162437886-559618166-Warcraft Logs Companion - Installer.exe",
+      "1762162441012-57412671-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs.torrent",
+      "1762162442878-94625306-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent",
+      "1762162444803-277377286-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent",
+      "1762162446715-29306095-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent"
+    ],
+    "image": "1762160161144-452420342-pexels-pixabay-45201.jpg"
   },
   {
-    "id": 6,
-    "name": "SlooW",
+    "id": 2,
+    "name": "Miry",
     "type": "Dog",
-    "breed": "123",
-    "age": 3,
-    "medicalFiles": [],
-    "image": "1762129746136-436696928-059-DSCF0563.jpg"
+    "breed": "Birmanea",
+    "age": 22,
+    "medicalFiles": []
   }
 ]

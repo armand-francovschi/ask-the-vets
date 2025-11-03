@@ -7,27 +7,33 @@ interface PetCardProps {
 }
 
 export default function PetCard({ pet, selected = false, onClick }: PetCardProps) {
-  const imageUrl = pet.image ? `http://localhost:5000/uploads/${pet.image}` : undefined;
-
   return (
     <div
       onClick={onClick}
-      className={`flex-none w-64 bg-primary-light rounded shadow p-4 flex flex-col gap-2 cursor-pointer hover:shadow-lg transition ${
+      className={`relative flex-none w-full sm:w-64 bg-primary-light rounded-2xl shadow-md p-4 flex flex-col gap-3 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
         selected ? "ring-4 ring-accent" : ""
       }`}
     >
-      {imageUrl ? (
-        <img src={imageUrl} alt={pet.name} className="w-full h-40 object-cover rounded mb-2" />
-      ) : (
-        <div className="w-full h-40 bg-gray-200 rounded mb-2 flex items-center justify-center text-gray-500">
-          No Image
-        </div>
-      )}
+      {/* Image */}
+      <div className="w-full aspect-square overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
+        {pet.image ? (
+          <img
+            src={pet.image.startsWith("http") ? pet.image : `http://localhost:5000/uploads/${pet.image}`}
+            alt={pet.name}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          />
+        ) : (
+          <span className="text-gray-400 italic">No photo</span>
+        )}
+      </div>
 
-      <h2 className="font-semibold text-primary-dark text-lg">{pet.name}</h2>
-      <p className="text-gray-700">Type: {pet.type}</p>
-      <p className="text-gray-700">Breed: {pet.breed}</p>
-      <p className="text-gray-700">Age: {pet.age}</p>
+      {/* Details */}
+      <div className="flex flex-col flex-grow text-center sm:text-left">
+        <h2 className="text-xl font-semibold text-primary-dark truncate">{pet.name}</h2>
+        <p className="text-gray-700 text-sm"><strong>Type:</strong> {pet.type}</p>
+        <p className="text-gray-700 text-sm"><strong>Breed:</strong> {pet.breed}</p>
+        <p className="text-gray-700 text-sm"><strong>Age:</strong> {pet.age}</p>
+      </div>
     </div>
   );
 }
