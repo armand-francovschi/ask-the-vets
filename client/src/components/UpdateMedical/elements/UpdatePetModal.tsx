@@ -61,6 +61,7 @@ export default function UpdatePetModal({ pet, onClose, onSubmit, title }: Update
             onChange={handleChange}
             className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary-light"
           />
+          
         </div>
         <div className="flex justify-end gap-3 mt-4">
           <button
