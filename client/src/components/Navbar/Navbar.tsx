@@ -6,20 +6,18 @@ import ProfileImageModal from "./ProfileImageUpload";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false); // modal state
+  const [modalOpen, setModalOpen] = useState(false); // profile modal
   const { user, logout } = useAuth();
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-2 px-4 py-2 rounded transition ${
-      isActive
-        ? "bg-accent font-semibold text-primary-dark"
-        : "hover:bg-accent/50 text-primary-dark"
+      isActive ? "bg-accent font-semibold text-primary-dark" : "hover:bg-accent/50 text-primary-dark"
     }`;
 
   return (
     <>
       {/* Desktop sidebar */}
-      <div className="hidden md:flex fixed top-0 left-0 h-full w-64 bg-primary-light shadow-lg p-6 flex-col">
+      <div className="hidden md:flex fixed top-0 left-0 h-full w-64 bg-primary-light shadow-lg p-6 flex-col z-50">
         <h1 className="text-2xl font-bold text-primary-dark mb-8">Ask The Vets</h1>
 
         {/* Links */}
@@ -38,11 +36,9 @@ export default function Navbar() {
               <img
                 src={user.image ? `http://localhost:5000/uploads/${user.image}` : "https://via.placeholder.com/80"}
                 className="w-16 h-16 rounded-full object-cover border-2 border-accent cursor-pointer"
-                onClick={() => setModalOpen(true)} // open modal
+                onClick={() => setModalOpen(true)}
               />
-              <span className="px-4 py-1 bg-accent text-primary-dark rounded-full font-semibold">
-                {user.name}
-              </span>
+              <span className="px-4 py-1 bg-accent text-primary-dark rounded-full font-semibold">{user.name}</span>
               <button
                 onClick={logout}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-full"
@@ -60,7 +56,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 left-0 w-full bg-primary-light shadow-lg p-4 flex justify-between items-center z-50">
+      <div className="md:hidden fixed top-0 left-0 w-full bg-primary-light shadow-lg p-4 flex justify-between items-center z-[9999]">
         <h1 className="text-xl font-bold text-primary-dark">Ask The Vets</h1>
         <button onClick={() => setIsOpen(!isOpen)} className="text-primary-dark font-bold text-2xl">
           ☰
@@ -69,7 +65,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden fixed top-16 left-0 w-full h-[calc(100%-4rem)] bg-primary-light shadow-lg p-4 flex flex-col justify-between z-40">
+        <div className="md:hidden fixed top-16 left-0 w-full h-[calc(100%-4rem)] bg-primary-light shadow-lg p-4 flex flex-col justify-between z-[10000]">
+          {/* Links */}
           <div className="flex flex-col gap-2">
             <NavLink to="/" className={linkClass} onClick={() => setIsOpen(false)}><FaHome /> Home</NavLink>
             <NavLink to="/contact-vet" className={linkClass} onClick={() => setIsOpen(false)}><FaUserMd /> Contact a Vet</NavLink>
@@ -78,7 +75,7 @@ export default function Navbar() {
             <NavLink to="/forum" className={linkClass} onClick={() => setIsOpen(false)}><FaQuestionCircle /> Forum & FAQs</NavLink>
           </div>
 
-          {/* Mobile user info / login buttons at bottom */}
+          {/* User info / login buttons at bottom */}
           {user ? (
             <div className="flex justify-between items-center mt-4">
               <div className="flex items-center gap-2">

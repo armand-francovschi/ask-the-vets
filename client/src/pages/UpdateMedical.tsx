@@ -32,19 +32,10 @@ export default function UpdateMedical() {
 
   return (
     <div className="md:ml-64 min-h-screen bg-background p-8 flex flex-col gap-8">
-      <h1 className="text-3xl font-bold text-primary-dark mb-4">
-        Update Your Pet(s) Medical Info
-      </h1>
+      <h1 className="text-3xl font-bold text-primary-dark mb-4">Update Your Pet(s) Medical Info</h1>
 
-      {/* Pet Carousel */}
-      <PetCarousel
-        pets={filteredPets}
-        selectedPet={selectedPet}
-        onSelectPet={setSelectedPet}
-        onAddPet={() => setIsAddModalOpen(true)}
-      />
+      <PetCarousel pets={filteredPets} selectedPet={selectedPet} onSelectPet={setSelectedPet} onAddPet={() => setIsAddModalOpen(true)} />
 
-      {/* Selected Pet Info */}
       {selectedPet && (
         <SelectedPetInfo
           pet={selectedPet}
@@ -55,46 +46,19 @@ export default function UpdateMedical() {
         />
       )}
 
-      {/* Notifications */}
-      {uploadSuccess && (
-        <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />
-      )}
-      {previewFile && (
-        <MedicalFilePreview
-          fileUrl={previewFile}
-          onClose={() => setPreviewFile(null)}
-        />
-      )}
+      {uploadSuccess && <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />}
+      {previewFile && <MedicalFilePreview fileUrl={previewFile} onClose={() => setPreviewFile(null)} />}
 
-      {/* Add Pet Modal */}
       {isAddModalOpen && (
-        <PetModal
-          title="Add a New Pet"
-          pet={newPet}
-          setPet={setNewPet}
-          onClose={() => setIsAddModalOpen(false)}
-          onSubmit={handleAddPet}
-        />
+        <PetModal title="Add a New Pet" pet={newPet} setPet={setNewPet} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddPet} />
       )}
 
-      {/* Edit Pet Modal */}
       {isEditModalOpen && selectedPet && (
-        <PetModal
-          title="Edit Pet Details"
-          pet={newPet}
-          setPet={setNewPet}
-          onClose={() => setIsEditModalOpen(false)}
-          onSubmit={handleEditPet}
-        />
+        <PetModal title="Edit Pet Details" pet={newPet} setPet={setNewPet} onClose={() => setIsEditModalOpen(false)} onSubmit={handleEditPet} />
       )}
 
-      {/* Remove Pet Modal */}
       {isRemoveModalOpen && selectedPet && (
-        <RemovePetModal
-          pet={selectedPet}
-          onClose={() => setIsRemoveModalOpen(false)}
-          onConfirm={() => handleRemovePet(selectedPet.id!)}
-        />
+        <RemovePetModal pet={selectedPet} onClose={() => setIsRemoveModalOpen(false)} onConfirm={() => handleRemovePet(selectedPet.id!)} />
       )}
     </div>
   );
