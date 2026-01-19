@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as analysisController from "../controllers/analysisController.js";
+import { deleteAnalysisFile } from "../controllers/analysisController.js";
 
 // Recreate __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -22,5 +23,7 @@ router.get("/files/:petId", analysisController.getAnalysisFiles);
 router.get("/download/:filename", analysisController.downloadAnalysisFile);
 router.post("/comment", analysisController.addComment);
 router.post("/feedback", analysisController.addFeedback);
+
+router.post("/delete", deleteAnalysisFile);
 
 export default router;

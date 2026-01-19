@@ -80,6 +80,7 @@ export const downloadAnalysisFile = (req: Request, res: Response) => {
   res.download(filePath);
 };
 
+
 // Add a comment to a file
 export const addComment = (req: Request, res: Response) => {
   const { petId, filename, comment } = req.body;
@@ -110,3 +111,26 @@ export const addFeedback = (req: Request, res: Response) => {
 
   res.json({ success: true });
 };
+
+// --- Delete a single analysis file ---
+export const deleteAnalysisFile = (req: Request, res: Response) => {
+  const { petId, filename } = req.body;
+  if (!petId || !filename) return res.status(400).json({ error: "Missing data" });
+
+  const analysisData = readAnalysisData();
+  const index = analysisData.findIndex(f => f.petId === petId && f.filename === filename);
+  if (index === -1) return res.status(404).json({ error: "File not found" });
+
+  // Remove file from disk
+  const filePath = path.join(uploadsDir, filename);
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+
+  // Remove from JSON
+  analysisData.splice(index, 1);
+  writeAnalysisData(analysisData);
+
+  res.json({ success: true });
+};
+

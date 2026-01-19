@@ -17,7 +17,7 @@ const MedicalAnalysis: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
 
-  // Fetch all existing analysis files for the selected pet
+  // Load files when selectedPet changes
   useEffect(() => {
     if (!selectedPet) return;
 
@@ -30,7 +30,6 @@ const MedicalAnalysis: React.FC = () => {
         setFiles(data || []);
       } catch (err) {
         console.error(err);
-        setFiles([]);
       }
     };
 
@@ -55,7 +54,7 @@ const MedicalAnalysis: React.FC = () => {
 
       const uploaded: MedicalFile = await res.json();
 
-      // Add the new file to the list (without overwriting existing ones)
+      // Add new file to list
       setFiles(prev => [...prev, uploaded]);
       setFile(null);
     } catch (err) {
@@ -79,25 +78,45 @@ const MedicalAnalysis: React.FC = () => {
 
       if (!res.ok) throw new Error("Failed to submit comment");
 
+      // Update local state
       setFiles(prev =>
         prev.map(f =>
           f.filename === filename ? { ...f, comments: [...f.comments, comment] } : f
         )
       );
-
       setCommentInputs(prev => ({ ...prev, [filename]: "" }));
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!selectedPet) {
+  // Delete a file
+  const handleDelete = async (filename: string) => {
+    if (!selectedPet) return;
+    const confirmed = window.confirm(`Are you sure you want to delete "${filename}"?`);
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/analysis/delete`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ petId: selectedPet.id, filename }),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete file");
+
+      setFiles(prev => prev.filter(f => f.filename !== filename));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!selectedPet)
     return (
       <p className="p-4 text-yellow-800">
         Please select a pet first to upload a medical file.
       </p>
     );
-  }
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -126,8 +145,17 @@ const MedicalAnalysis: React.FC = () => {
         {files.map(f => (
           <div
             key={f.filename}
-            className="border p-4 rounded flex flex-col gap-2 bg-gray-50"
+            className="border p-4 rounded flex flex-col gap-2 bg-gray-50 relative"
           >
+            {/* Delete button */}
+            <button
+              onClick={() => handleDelete(f.filename)}
+              className="absolute top-2 right-2 text-red-600 font-bold hover:text-red-800"
+              title="Delete file"
+            >
+              X
+            </button>
+
             {/* Download button */}
             <a
               href={`${API_BASE}/uploads/${f.filename}`}
@@ -150,8 +178,8 @@ const MedicalAnalysis: React.FC = () => {
               </p>
             )}
 
-            {/* Comments */}
-            <div className="flex flex-col gap-1 mt-2">
+            {/* User comments */}
+            <div className="flex flex-col gap-1">
               {f.comments.length > 0 && (
                 <div>
                   <p className="font-semibold">Comments:</p>
