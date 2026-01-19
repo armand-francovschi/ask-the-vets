@@ -1,57 +1,85 @@
-import { DndProvider } from "react-dnd"; import { HTML5Backend } from "react-dnd-html5-backend"; import { useLiveChat } from "../components/LiveChat/functions/useLiveChat"; import ChatTabs from "../components/LiveChat/elements/ChatTabs"; import MessageList from "../components/LiveChat/elements/MessageList"; import MessageInput from "../components/LiveChat/elements/MessageInput"; import UserSidebar from "../components/LiveChat/elements/UsersSidebar"; import UsernameModal from "../components/LiveChat/modals/UsernameModal";
+import { DndProvider } from "react-dnd"; 
+import { HTML5Backend } from "react-dnd-html5-backend"; 
+import { useLiveChat } from "../components/LiveChat/functions/useLiveChat"; 
+import ChatTabs from "../components/LiveChat/elements/ChatTabs"; 
+import MessageList from "../components/LiveChat/elements/MessageList"; 
+import MessageInput from "../components/LiveChat/elements/MessageInput";
+import UserSidebar from "../components/LiveChat/elements/UsersSidebar"; 
+import UsernameModal from "../components/LiveChat/modals/UsernameModal";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
+
 
 export default function LiveChat() {
   const chat = useLiveChat();
-  if (!chat.username) return <UsernameModal inputName={chat.inputName} setInputName={chat.setInputName} setUsername={chat.setUsername} />;
+  const { user } = useAuth();
+
+  const isAuthenticated = Boolean(user?.name);
+
+    useEffect(() => {
+    if (isAuthenticated && !chat.username) {
+      chat.setUsername(user!.name);
+    }
+  }, [isAuthenticated, user, chat]);
+
+  if (!isAuthenticated && !chat.username) {
+    return (
+      <UsernameModal
+        inputName={chat.inputName}
+        setInputName={chat.setInputName}
+        setUsername={(name: string) => chat.setUsername(`${name} (Guest)`)}
+      />
+    );
+  }
   const currentMessages = chat.tabs.find(t => t.name === chat.activeTab)?.messages || [];
   return (
 
-   <DndProvider backend={HTML5Backend}>
-  <div
-    className="fixed inset-y-0 flex justify-center items-start z-40 pointer-events-none p-2 md:p-0"
-    style={{
-      top: "4rem", // mobile: top navbar height
-      left: window.innerWidth >= 768 ? "16rem" : "0", // md+ offset for desktop navbar, 0 for mobile
-      width: window.innerWidth >= 768 ? "calc(100% - 16rem)" : "100%", // full width on mobile
-    }}
-  >
-    <div className="pointer-events-auto bg-white rounded-lg shadow-xl w-full max-w-[1000px] md:h-[600px] flex flex-col md:flex-row overflow-hidden relative">
-      
-      {/* Sidebar */}
-      <UserSidebar
-        users={chat.users}
-        openPrivateTab={chat.openPrivateTab}
-        showUserDropdown={chat.showUserDropdown}
-        setShowUserDropdown={chat.setShowUserDropdown}
-        username={chat.username}
-      />
+    <DndProvider backend={HTML5Backend}>
+      <div
+        className="fixed inset-y-0 flex justify-center items-start z-40 pointer-events-none p-2 md:p-0"
+        style={{
+          top: "4rem", // mobile: top navbar height
+          left: window.innerWidth >= 768 ? "16rem" : "0", // md+ offset for desktop navbar, 0 for mobile
+          width: window.innerWidth >= 768 ? "calc(100% - 16rem)" : "100%", // full width on mobile
+        }}
+      >
+        <div className="pointer-events-auto bg-white rounded-lg shadow-xl w-full max-w-[1000px] md:h-[600px] flex flex-col md:flex-row overflow-hidden relative">
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col relative">
-        <ChatTabs
-          tabs={chat.tabs}
-          moveTab={chat.moveTab}
-          activeTab={chat.activeTab}
-          switchTab={chat.switchTab}
-          closeTab={chat.closeTab}
-        />
-        <MessageList
-          messages={currentMessages}
-          username={chat.username}
-          messagesEndRef={chat.messagesEndRef}
-        />
-        <MessageInput
-          message={chat.message}
-          setMessage={chat.setMessage}
-          sendMessage={chat.sendMessage}
-          showEmojiPicker={chat.showEmojiPicker}
-          setShowEmojiPicker={chat.setShowEmojiPicker}
-          addEmoji={chat.addEmoji}
-        />
+          {/* Sidebar */}
+          <UserSidebar
+            users={chat.users}
+            openPrivateTab={chat.openPrivateTab}
+            showUserDropdown={chat.showUserDropdown}
+            setShowUserDropdown={chat.setShowUserDropdown}
+            username={chat.username}
+          />
+
+          {/* Main Chat Area */}
+          <div className="flex-1 flex flex-col relative">
+            <ChatTabs
+              tabs={chat.tabs}
+              moveTab={chat.moveTab}
+              activeTab={chat.activeTab}
+              switchTab={chat.switchTab}
+              closeTab={chat.closeTab}
+            />
+            <MessageList
+              messages={currentMessages}
+              username={chat.username}
+              messagesEndRef={chat.messagesEndRef}
+            />
+            <MessageInput
+              message={chat.message}
+              setMessage={chat.setMessage}
+              sendMessage={chat.sendMessage}
+              showEmojiPicker={chat.showEmojiPicker}
+              setShowEmojiPicker={chat.setShowEmojiPicker}
+              addEmoji={chat.addEmoji}
+            />
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</DndProvider>
+    </DndProvider>
 
 
 

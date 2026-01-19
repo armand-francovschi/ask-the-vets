@@ -4,9 +4,13 @@ import SelectedPetInfo from "../components/UpdateMedical/elements/SelectedPetInf
 import PetModal from "../components/UpdateMedical/elements/PetModal";
 import RemovePetModal from "../components/UpdateMedical/elements/RemovePetModal";
 import MedicalFilePreview from "../components/UpdateMedical/functions/MedicalFilePreview";
+import { useAuth } from "../context/AuthContext";
 import UploadSuccessNotification from "../components/UpdateMedical/functions/UploadSuccessNotification";
 
 export default function UpdateMedical() {
+
+  const { user } = useAuth(); // user is null/undefined if not logged in
+
   const {
     filteredPets,
     selectedPet,
@@ -23,7 +27,7 @@ export default function UpdateMedical() {
     setIsRemoveModalOpen,
     setUploadSuccess,
     setPreviewFile,
-    handleAddPet,
+    handleAddPet, 
     handleEditPet,
     handleRemovePet,
     openEditModal,
@@ -34,31 +38,62 @@ export default function UpdateMedical() {
     <div className="md:ml-64 min-h-screen bg-background p-8 flex flex-col gap-8">
       <h1 className="text-3xl font-bold text-primary-dark mb-4">Update Your Pet(s) Medical Info</h1>
 
-      <PetCarousel pets={filteredPets} selectedPet={selectedPet} onSelectPet={setSelectedPet} onAddPet={() => setIsAddModalOpen(true)} />
 
-      {selectedPet && (
-        <SelectedPetInfo
-          pet={selectedPet}
-          setPet={setSelectedPet}
-          onEdit={() => openEditModal(selectedPet)}
-          onRemove={() => openRemoveModal(selectedPet)}
-          setPreviewFile={setPreviewFile}
-        />
-      )}
+    
+      {!user ? (
+        <div className="p-4 bg-yellow-100 border border-yellow-300 rounded">
+          Please log in to manage your pets.
+        </div>
+      ) : (
+        <>
+          <PetCarousel
+            pets={filteredPets}
+            selectedPet={selectedPet}
+            onSelectPet={setSelectedPet}
+            onAddPet={() => setIsAddModalOpen(true)}
+          />
 
-      {uploadSuccess && <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />}
-      {previewFile && <MedicalFilePreview fileUrl={previewFile} onClose={() => setPreviewFile(null)} />}
+          {selectedPet && (
+            <SelectedPetInfo
+              pet={selectedPet}
+              setPet={setSelectedPet}
+              onEdit={() => openEditModal(selectedPet)}
+              onRemove={() => openRemoveModal(selectedPet)}
+              setPreviewFile={setPreviewFile}
+            />
+          )}
 
-      {isAddModalOpen && (
-        <PetModal title="Add a New Pet" pet={newPet} setPet={setNewPet} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddPet} />
-      )}
+          {uploadSuccess && <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />}
+          {previewFile && <MedicalFilePreview fileUrl={previewFile} onClose={() => setPreviewFile(null)} />}
 
-      {isEditModalOpen && selectedPet && (
-        <PetModal title="Edit Pet Details" pet={newPet} setPet={setNewPet} onClose={() => setIsEditModalOpen(false)} onSubmit={handleEditPet} />
-      )}
+          {isAddModalOpen && (
+            <PetModal
+              title="Add a New Pet"
+              pet={newPet}
+              setPet={setNewPet}
+              onClose={() => setIsAddModalOpen(false)}
+              onSubmit={handleAddPet}
+            />
+          )}
 
-      {isRemoveModalOpen && selectedPet && (
-        <RemovePetModal pet={selectedPet} onClose={() => setIsRemoveModalOpen(false)} onConfirm={() => handleRemovePet(selectedPet.id!)} />
+          {isEditModalOpen && selectedPet && (
+            <PetModal
+              title="Edit Pet Details"
+              pet={newPet}
+              setPet={setNewPet}
+              onClose={() => setIsEditModalOpen(false)}
+              onSubmit={handleEditPet}
+            />
+          )}
+
+          {isRemoveModalOpen && selectedPet && (
+            <RemovePetModal
+              pet={selectedPet}
+              onClose={() => setIsRemoveModalOpen(false)}
+              onConfirm={() => handleRemovePet(selectedPet.id!)}
+            />
+          )}
+        </>
       )}
     </div>
   );

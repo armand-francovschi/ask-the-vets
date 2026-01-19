@@ -7,3 +7,10 @@ export interface Pet {
   image?: string;
   medicalFiles: string[];
 }
+
+export interface MedicalFile {
+  filename: string;
+  reviewed: boolean;
+  feedback: string | null;
+  comments: string[];
+}

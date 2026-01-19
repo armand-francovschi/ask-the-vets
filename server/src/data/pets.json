@@ -3,7 +3,7 @@
     "id": 1,
     "name": "Miry",
     "type": "Cat",
-    "breed": "Birmanea",
+    "breed": "Cutester",
     "age": 22,
     "medicalFiles": [
       "1762156818900-367456275-Armand Francovschi.pdf",
@@ -14,7 +14,9 @@
       "1762162441012-57412671-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs.torrent",
       "1762162442878-94625306-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent",
       "1762162444803-277377286-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent",
-      "1762162446715-29306095-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent"
+      "1762162446715-29306095-1762124270626-553784008-Warcraft.III.Reforged.HD.v1.36.1.21015.REPACK-KaOs (1).torrent",
+      "1bc85b49b09f1b35feb1fd24ac81ce57",
+      "0f14d8dd626c8553ec96f5c06da9b2ea"
     ],
     "image": "1762160161144-452420342-pexels-pixabay-45201.jpg"
   },
@@ -24,7 +26,9 @@
     "type": "Dog",
     "breed": "Caucasian",
     "age": 5,
-    "medicalFiles": [],
+    "medicalFiles": [
+      "1762971572347-232806678-Armand Francovschi (1).pdf"
+    ],
     "image": "1762178668497-963782437-shutterstock_772571353.jpg"
   }
 ]

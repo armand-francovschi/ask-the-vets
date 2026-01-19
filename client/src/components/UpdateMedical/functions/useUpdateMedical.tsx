@@ -55,6 +55,7 @@ export function useUpdateMedical() {
   /** Add new pet */
   const handleAddPet = async () => {
     if (!user) return;
+    
     try {
       const payload = { ...newPet, userId: user.id };
       const res = await fetch("http://localhost:5000/pets", {

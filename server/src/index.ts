@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import petsRoutes from "./routes/petsRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
+import analysisRoutes from "./routes/analysisRoutes.js";
 
 import { fileURLToPath } from "url";
 import { registerChatSocket } from "./sockets/chatSocket.js";
@@ -37,6 +38,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/pets", petsRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/api/analysis", analysisRoutes);
 
 // ✅ HTTP + Socket.IO integration with updated CORS
 const server = http.createServer(app);
