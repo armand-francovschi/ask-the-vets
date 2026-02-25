@@ -1,14 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ContactVet from "./pages/ContactVet";
 import UpdateMedical from "./pages/UpdateMedical";
 import LiveChat from "./pages/LiveChat";
 import Forum from "./pages/Forum";
+import DoctorSchedule from "./pages/DoctorSchedule";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
 import TextChat from "./components/ContactVet/TextChat";
-import MedicalAnalysis from "./components/ContactVet/medicalAnalysis";
+import MedicalAnalysis from "./components/ContactVet/MedicalAnalysis";
 import VideoCall from "./components/ContactVet/VideoCall";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/update-medical" element={<UpdateMedical />} />
         <Route path="/live-chat" element={<LiveChat />} />
         <Route path="/forum" element={<Forum />} />
+        <Route path="/doctor/schedule" element={<DoctorSchedule />} />
       </Routes>
     </>
   );

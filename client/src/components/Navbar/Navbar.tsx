@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaUserMd, FaPaw, FaComments, FaQuestionCircle } from "react-icons/fa";
+import { FaHome, FaUserMd, FaPaw, FaComments, FaQuestionCircle, FaCalendarAlt } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import ProfileImageModal from "./ProfileImageUpload";
 
@@ -27,6 +27,9 @@ export default function Navbar() {
           <NavLink to="/update-medical" className={linkClass}><FaPaw /> Medical Info</NavLink>
           <NavLink to="/live-chat" className={linkClass}><FaComments /> Live Chat</NavLink>
           <NavLink to="/forum" className={linkClass}><FaQuestionCircle /> Forum & FAQs</NavLink>
+          {user && (
+            <NavLink to="/doctor/schedule" className={linkClass}><FaCalendarAlt /> Check Schedule</NavLink>
+          )}
         </nav>
 
         {/* User info / login buttons at bottom */}
@@ -73,6 +76,9 @@ export default function Navbar() {
             <NavLink to="/update-medical" className={linkClass} onClick={() => setIsOpen(false)}><FaPaw /> Medical Info</NavLink>
             <NavLink to="/live-chat" className={linkClass} onClick={() => setIsOpen(false)}><FaComments /> Live Chat</NavLink>
             <NavLink to="/forum" className={linkClass} onClick={() => setIsOpen(false)}><FaQuestionCircle /> Forum & FAQs</NavLink>
+            {user && (
+              <NavLink to="/doctor/schedule" className={linkClass} onClick={() => setIsOpen(false)}><FaCalendarAlt /> Check Schedule</NavLink>
+            )}
           </div>
 
           {/* User info / login buttons at bottom */}

@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "doctorId": 3,
+    "ownerId": 1,
+    "petId": 3,
+    "petName": "Mango",
+    "ownerName": "Armand",
+    "type": "video",
+    "scheduledAt": "2026-02-26T10:00:00.000Z",
+    "status": "scheduled",
+    "notes": "Follow-up on skin irritation",
+    "date": "2026-02-26",
+    "slotStartHour": 10
+  },
+  {
+    "id": 2,
+    "doctorId": 3,
+    "ownerId": 1,
+    "petId": 1,
+    "petName": "Luna",
+    "ownerName": "Maria",
+    "type": "video",
+    "scheduledAt": "2026-02-28T15:00:00.000Z",
+    "status": "scheduled",
+    "notes": "Post-treatment check",
+    "date": "2026-02-28",
+    "slotStartHour": 15
+  },
+  {
+    "id": 3,
+    "doctorId": 4,
+    "ownerId": 2,
+    "petId": 2,
+    "petName": "Rocky",
+    "ownerName": "Stefan",
+    "type": "video",
+    "scheduledAt": "2026-02-27T09:00:00.000Z",
+    "status": "scheduled",
+    "notes": "Vaccination consult",
+    "date": "2026-02-27",
+    "slotStartHour": 9
+  }
+]

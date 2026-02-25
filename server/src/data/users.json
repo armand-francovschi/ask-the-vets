@@ -18,5 +18,24 @@
     "password": "$2b$10$64TQwO97nXD7mG.6ddllK.FZAWi3HzAl58v1ljRAo0YpJ4zWtGCMy",
     "role": "user",
     "pets": []
+  },
+  {
+    "id": 3,
+    "name": "test",
+    "email": "test@2.com",
+    "password": "$2b$10$nejlDIlDiGeANt.IvrJsOefra2F6AXmYLgIvf3cLHY61XVVP4p7Vi",
+    "role": "doctor",
+    "pets": [
+      3
+    ],
+    "image": "1762174478244-137762080-pexels-pixabay-45201.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Dr. Elena",
+    "email": "doctor@clinic.com",
+    "password": "$2b$10$nejlDIlDiGeANt.IvrJsOefra2F6AXmYLgIvf3cLHY61XVVP4p7Vi",
+    "role": "doctor",
+    "pets": []
   }
 ]

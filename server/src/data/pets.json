@@ -30,5 +30,17 @@
       "1762971572347-232806678-Armand Francovschi (1).pdf"
     ],
     "image": "1762178668497-963782437-shutterstock_772571353.jpg"
+  },
+  {
+    "id": 3,
+    "name": " Mango",
+    "type": "Cat",
+    "breed": "Persian",
+    "age": 6,
+    "medicalFiles": [
+      "1762156818900-367456275-Armand Francovschi.pdf",
+      "1772029125890-928258567-Persian-Cats_8f842135-8977-4252-8af6-48c53182d9d0.jpg"
+    ],
+    "image": "1772029008649-570780329-Persian-Cats_8f842135-8977-4252-8af6-48c53182d9d0.jpg"
   }
 ]
