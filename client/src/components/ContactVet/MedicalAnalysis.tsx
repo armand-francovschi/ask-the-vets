@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUpdateMedical } from "../UpdateMedical/functions/useUpdateMedical";
+import { API_BASE_URL } from "../../config/api";
 
 interface MedicalFile {
   filename: string;
@@ -7,8 +8,6 @@ interface MedicalFile {
   feedback: string | null;
   comments: string[];
 }
-
-const API_BASE = "http://localhost:5000";
 
 const MedicalAnalysis: React.FC = () => {
   const { selectedPet } = useUpdateMedical();
@@ -23,7 +22,7 @@ const MedicalAnalysis: React.FC = () => {
 
     const fetchFiles = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/analysis/files/${selectedPet.id}`);
+        const res = await fetch(`${API_BASE_URL}/api/analysis/files/${selectedPet.id}`);
         if (!res.ok) throw new Error("Failed to fetch files");
 
         const data: MedicalFile[] = await res.json();
@@ -45,7 +44,7 @@ const MedicalAnalysis: React.FC = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch(`${API_BASE}/api/analysis/upload/${selectedPet.id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/analysis/upload/${selectedPet.id}`, {
         method: "POST",
         body: formData,
       });
@@ -70,7 +69,7 @@ const MedicalAnalysis: React.FC = () => {
     if (!selectedPet || !comment) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/analysis/comment`, {
+      const res = await fetch(`${API_BASE_URL}/api/analysis/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ petId: selectedPet.id, filename, comment }),
@@ -97,7 +96,7 @@ const MedicalAnalysis: React.FC = () => {
     if (!confirmed) return;
 
     try {
-      const res = await fetch(`${API_BASE}/api/analysis/delete`, {
+      const res = await fetch(`${API_BASE_URL}/api/analysis/delete`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ petId: selectedPet.id, filename }),
@@ -158,7 +157,7 @@ const MedicalAnalysis: React.FC = () => {
 
             {/* Download button */}
             <a
-              href={`${API_BASE}/uploads/${f.filename}`}
+              href={`${API_BASE_URL}/uploads/${f.filename}`}
               className="text-blue-600 underline font-semibold"
               download
             >

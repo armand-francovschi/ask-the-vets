@@ -1,8 +1,9 @@
 // client/src/context/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import type { User } from "../types";
 import { loginUser, registerUser } from "../api/auth";
+import { buildApiUrl } from "../config/api";
 
 interface AuthContextType {
   user: User | null;
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const fetchCurrentUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/users/me", {
+        const res = await fetch(buildApiUrl("/users/me"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch user");
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem("token", res.token);
 
     // fetch current user info from backend
-    const userRes = await fetch("http://localhost:5000/users/me", {
+    const userRes = await fetch(buildApiUrl("/users/me"), {
       headers: { Authorization: `Bearer ${res.token}` },
     });
     if (!userRes.ok) throw new Error("Failed to fetch user after login");
@@ -66,7 +67,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const res = await registerUser(name, email, password);
     localStorage.setItem("token", res.token);
 
-    const userRes = await fetch("http://localhost:5000/users/me", {
+    const userRes = await fetch(buildApiUrl("/users/me"), {
       headers: { Authorization: `Bearer ${res.token}` },
     });
     if (!userRes.ok) throw new Error("Failed to fetch user after registration");

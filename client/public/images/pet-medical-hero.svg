@@ -1,0 +1,30 @@
+<svg width="1600" height="600" viewBox="0 0 1600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="600" fill="#E5D0CC"/>
+  <circle cx="220" cy="120" r="140" fill="#BFACB5" fill-opacity="0.45"/>
+  <circle cx="1450" cy="460" r="180" fill="#BFACB5" fill-opacity="0.35"/>
+  <rect x="180" y="110" width="1240" height="380" rx="36" fill="#FFFFFF" fill-opacity="0.55" stroke="#444554" stroke-opacity="0.18"/>
+
+  <g transform="translate(260,170)">
+    <rect x="0" y="0" width="430" height="250" rx="24" fill="#BFACB5" fill-opacity="0.42"/>
+    <circle cx="110" cy="110" r="62" fill="#E5D0CC" stroke="#444554" stroke-opacity="0.2" stroke-width="4"/>
+    <ellipse cx="108" cy="112" rx="34" ry="30" fill="#7F7B82" fill-opacity="0.62"/>
+    <circle cx="310" cy="125" r="76" fill="#E5D0CC" stroke="#444554" stroke-opacity="0.2" stroke-width="4"/>
+    <ellipse cx="308" cy="125" rx="44" ry="38" fill="#7F7B82" fill-opacity="0.55"/>
+    <rect x="80" y="190" width="290" height="26" rx="13" fill="#172121" fill-opacity="0.12"/>
+  </g>
+
+  <g transform="translate(760,155)">
+    <rect x="0" y="0" width="570" height="290" rx="24" fill="#FFFFFF" fill-opacity="0.68" stroke="#444554" stroke-opacity="0.25"/>
+    <text x="40" y="58" fill="#172121" font-size="38" font-family="Segoe UI, Arial, sans-serif" font-weight="700">Pet Medical Information</text>
+    <text x="40" y="102" fill="#444554" font-size="25" font-family="Segoe UI, Arial, sans-serif">Track records, files, and treatments.</text>
+
+    <rect x="40" y="138" width="230" height="50" rx="14" fill="#BFACB5" fill-opacity="0.7"/>
+    <text x="58" y="171" fill="#172121" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="600">Vaccines</text>
+
+    <rect x="290" y="138" width="230" height="50" rx="14" fill="#BFACB5" fill-opacity="0.7"/>
+    <text x="308" y="171" fill="#172121" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="600">Lab Results</text>
+
+    <rect x="40" y="206" width="480" height="50" rx="14" fill="#444554" fill-opacity="0.15"/>
+    <text x="58" y="238" fill="#172121" font-size="24" font-family="Segoe UI, Arial, sans-serif" font-weight="600">Upload and manage medical files</text>
+  </g>
+</svg>

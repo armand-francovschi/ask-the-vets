@@ -1,5 +1,6 @@
 import type { Pet } from "../../../types";
 import type { Dispatch, SetStateAction } from "react";
+import { buildApiUrl } from "../../../config/api";
 
 interface ProfileImageUploadProps {
   pet: Pet;
@@ -16,13 +17,13 @@ export default function ProfileImageUpload({ pet, setPet }: ProfileImageUploadPr
     try {
       // Delete old image if it exists
       if (pet.image) {
-        await fetch(`http://localhost:5000/uploads/${pet.image}`, {
+        await fetch(buildApiUrl(`/uploads/${pet.image}`), {
           method: "DELETE",
         });
       }
 
       // Upload new image
-      const res = await fetch(`http://localhost:5000/pets/${pet.id}/profile-image`, {
+      const res = await fetch(buildApiUrl(`/pets/${pet.id}/profile-image`), {
         method: "POST",
         body: formData,
       });
@@ -43,9 +44,15 @@ export default function ProfileImageUpload({ pet, setPet }: ProfileImageUploadPr
     <>
       <label
         htmlFor="profile-upload"
-        className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition cursor-pointer text-center"
+        className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition cursor-pointer flex items-center justify-center gap-2"
       >
-        Change Profile Picture
+        <span aria-hidden="true" className="inline-flex text-white shrink-0">
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 7h4l2-2h4l2 2h4v12H4z" />
+            <circle cx="12" cy="13" r="3" />
+          </svg>
+        </span>
+        <span>Change Profile Picture</span>
       </label>
       <input
         id="profile-upload"

@@ -1,3 +1,263 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--carbon-black: #172121ff;
+	--charcoal-blue: #444554ff;
+	--rosy-granite: #7f7b82ff;
+	--lilac-ash: #bfacb5ff;
+	--almond-silk: #e5d0ccff;
+	--kb-inset: 0px;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	background-color: var(--almond-silk);
+	color: var(--carbon-black);
+	overflow-x: hidden;
+}
+
+html.keyboard-focus-lock,
+html.keyboard-focus-lock body {
+	overscroll-behavior-y: none;
+}
+
+@keyframes homeFadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(18px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes homeFloat {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-12px);
+	}
+}
+
+@keyframes homeWordSwap {
+	0% {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes globalRevealIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.995);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes contactStageIn {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes contactCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes contactSentenceIn {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes contactConfirmSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes contactDaySlideNext {
+	from {
+		opacity: 0;
+		transform: translateX(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes contactDaySlidePrev {
+	from {
+		opacity: 0;
+		transform: translateX(-14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+.home-fade-up {
+	animation: homeFadeUp 520ms ease-out both;
+}
+
+.home-card-enter {
+	opacity: 0;
+	animation: homeFadeUp 600ms ease-out forwards;
+}
+
+.home-card-hover {
+	transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.home-card-hover:hover {
+	transform: translateY(-6px);
+}
+
+.home-float {
+	animation: homeFloat 3.5s ease-in-out infinite;
+}
+
+.home-float-delayed {
+	animation: homeFloat 4.2s ease-in-out infinite 0.4s;
+}
+
+.home-word-swap {
+	animation: homeWordSwap 260ms ease-out both;
+}
+
+.global-reveal-item {
+	animation: globalRevealIn 430ms ease-out both;
+	animation-delay: var(--global-reveal-delay, 0ms);
+	will-change: transform, opacity;
+}
+
+.contact-enter {
+	animation: contactStageIn 420ms ease-out both;
+}
+
+.contact-enter-delay {
+	animation: contactStageIn 520ms ease-out both;
+}
+
+.contact-card-enter {
+	animation: contactCardIn 380ms ease-out both;
+}
+
+.contact-sentence-enter {
+	animation: contactSentenceIn 360ms ease-out both;
+}
+
+.contact-confirm-slide-in {
+	animation: contactConfirmSlideIn 260ms ease-out both;
+}
+
+.contact-day-slide-next {
+	animation: contactDaySlideNext 280ms ease-out both;
+}
+
+.contact-day-slide-prev {
+	animation: contactDaySlidePrev 280ms ease-out both;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+	transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease,
+		box-shadow 180ms ease, transform 180ms ease;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.chat-launcher-btn {
+	bottom: calc(env(safe-area-inset-bottom, 0px) + 0.9rem + var(--kb-inset));
+}
+
+@media (max-width: 767px) {
+	.chat-launcher-btn {
+		bottom: calc(env(safe-area-inset-bottom, 0px) + 3.25rem + var(--kb-inset));
+	}
+}
+
+@media (min-width: 768px) {
+	.md\:ml-64 {
+		margin-left: 0 !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-fade-up,
+	.home-card-enter,
+	.home-float,
+	.home-float-delayed,
+	.home-word-swap {
+		animation: none !important;
+	}
+
+	.global-reveal-item {
+		animation: none !important;
+	}
+
+	.home-card-hover {
+		transition: none;
+	}
+
+	.contact-enter,
+	.contact-enter-delay,
+	.contact-card-enter,
+	.contact-sentence-enter,
+	.contact-confirm-slide-in,
+	.contact-day-slide-next,
+	.contact-day-slide-prev {
+		animation: none !important;
+	}
+}

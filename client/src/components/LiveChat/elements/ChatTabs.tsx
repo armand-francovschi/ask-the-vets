@@ -55,19 +55,21 @@ const TabItem: React.FC<{
     <div
       ref={ref}
       className={`flex items-center px-3 py-1 cursor-pointer relative select-none text-sm md:text-base ${
-        activeTab === tab.name ? "bg-white border-t border-l border-r rounded-t" : ""
+        activeTab === tab.name
+          ? "bg-background border-t border-l border-r border-primary-dark/20 rounded-t text-primary-dark"
+          : "text-primary-dark/80 hover:bg-accent/60"
       }`}
       onClick={() => switchTab(tab.name)}
     >
       {tab.name}
-      {tab.unread && <span className="ml-1 w-2 h-2 bg-red-500 rounded-full inline-block"></span>}
+      {tab.unread && <span className="ml-1 w-2 h-2 bg-accent-dark rounded-full inline-block"></span>}
       {tab.name !== "General" && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             closeTab(tab.name);
           }}
-          className="ml-1 text-gray-500 hover:text-red-500 font-bold"
+          className="ml-1 text-primary-dark/55 hover:text-primary-dark font-bold"
         >
           ×
         </button>
@@ -78,7 +80,7 @@ const TabItem: React.FC<{
 
 export default function ChatTabs({ tabs, moveTab, activeTab, switchTab, closeTab }: Props) {
   return (
-    <div className="flex border-b bg-gray-100 overflow-x-auto z-10">
+    <div className="flex border-b border-primary-dark/15 bg-accent/45 overflow-x-auto z-10">
       {tabs.map((tab, index) => (
         <TabItem
           key={tab.name}

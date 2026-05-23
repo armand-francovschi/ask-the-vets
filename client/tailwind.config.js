@@ -11,16 +11,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        "carbon-black": "#172121",
+        "charcoal-blue": "#444554",
+        "rosy-granite": "#7f7b82",
+        "lilac-ash": "#bfacb5",
+        "almond-silk": "#e5d0cc",
         primary: {
-          DEFAULT: "#7C3AED", // pleasant purple
-          dark: "#5B21B6",
-          light: "#C4B5FD",
+          DEFAULT: "#444554",
+          dark: "#172121",
+          light: "#bfacb5",
         },
         accent: {
-          DEFAULT: "#FDE68A", // light yellow
-          dark: "#FACC15",
+          DEFAULT: "#e5d0cc",
+          dark: "#7f7b82",
         },
-        background: "#F5F3FF", // very light purple background
+        background: "#e5d0cc",
       },
     },
   },

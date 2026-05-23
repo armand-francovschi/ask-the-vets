@@ -26,7 +26,8 @@
     "password": "$2b$10$nejlDIlDiGeANt.IvrJsOefra2F6AXmYLgIvf3cLHY61XVVP4p7Vi",
     "role": "doctor",
     "pets": [
-      3
+      3,
+      8
     ],
     "image": "1762174478244-137762080-pexels-pixabay-45201.jpg"
   },
@@ -36,6 +37,47 @@
     "email": "doctor@clinic.com",
     "password": "$2b$10$nejlDIlDiGeANt.IvrJsOefra2F6AXmYLgIvf3cLHY61XVVP4p7Vi",
     "role": "doctor",
-    "pets": []
+    "pets": [],
+    "image": "1762174478244-137762080-pexels-pixabay-45201.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Dr. Tati",
+    "email": "test@test.com",
+    "password": "$2b$10$9SOIGVZWC88zBwJ2P7iRMeZHE0Bo8uJ3g6agJLOvedM6ViaqysKR2",
+    "role": "doctor",
+    "pets": [
+      4
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Daniel Visan",
+    "email": "danielvsn6@gmail.com",
+    "password": "$2b$10$PO6jJ9IFnsiubKfulHTAceIZ9aaorbNjSePFRAQpz5OUpHZLuAPWm",
+    "role": "user",
+    "pets": [
+      6
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Miry",
+    "email": "catalui.m@yahoo.com",
+    "password": "$2b$10$Dp0qa7t.av8hsVhjHff1SepN.3J/z94NkpE.BBTlHCesK1U2VYDtS",
+    "role": "user",
+    "pets": [
+      7
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Miruna",
+    "email": "catalui.m13@gmail.com",
+    "password": "$2b$10$pozt1Q489vS6qUcay8qp8.rp5N39dYGTVl6JrCtlW6FqLdG1UNTe6",
+    "role": "user",
+    "pets": [
+      9
+    ]
   }
 ]

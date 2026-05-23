@@ -1,4 +1,5 @@
 import type { Pet } from "../../../types";
+import { API_BASE_URL } from "../../../config/api";
 
 interface PetCardProps {
   pet: Pet;
@@ -8,32 +9,28 @@ interface PetCardProps {
 
 export default function PetCard({ pet, selected = false, onClick }: PetCardProps) {
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      className={`relative flex-none w-full sm:w-64 bg-primary-light rounded-2xl shadow-md p-4 flex flex-col gap-3 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${
-        selected ? "ring-4 ring-accent" : ""
+      className={`relative flex-none w-[220px] h-[110px] bg-accent rounded-xl border p-3 flex items-center gap-3 text-left transition-all duration-200 hover:shadow-md ${
+        selected ? "border-primary-dark shadow-[0_0_0_2px_rgba(68,69,84,0.2)]" : "border-primary-dark/15"
       }`}
     >
-      {/* Image */}
-      <div className="w-full aspect-square overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center">
+      <div className="w-20 h-20 overflow-hidden rounded-lg bg-background/70 flex items-center justify-center shrink-0">
         {pet.image ? (
           <img
-            src={pet.image.startsWith("http") ? pet.image : `http://localhost:5000/uploads/${pet.image}`}
+            src={pet.image.startsWith("http") ? pet.image : `${API_BASE_URL}/uploads/${pet.image}`}
             alt={pet.name}
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <span className="text-gray-400 italic">No photo</span>
+          <span className="text-xs text-rosy-granite italic">No photo</span>
         )}
       </div>
 
-      {/* Details */}
-      <div className="flex flex-col flex-grow text-center sm:text-left">
-        <h2 className="text-xl font-semibold text-primary-dark truncate">{pet.name}</h2>
-        <p className="text-gray-700 text-sm"><strong>Type:</strong> {pet.type}</p>
-        <p className="text-gray-700 text-sm"><strong>Breed:</strong> {pet.breed}</p>
-        <p className="text-gray-700 text-sm"><strong>Age:</strong> {pet.age}</p>
+      <div className="flex flex-col justify-center min-w-0">
+        <h2 className="text-lg font-semibold text-primary-dark truncate">{pet.name}</h2>
       </div>
-    </div>
+    </button>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Pet } from "../../../types";
 import { useAuth } from "../../../context/AuthContext";
+import { buildApiUrl } from "../../../config/api";
 
 export function useUpdateMedical() {
   const { user } = useAuth();
@@ -18,7 +19,7 @@ export function useUpdateMedical() {
   /** Fetch all pets from backend */
   const fetchPets = async () => {
     try {
-      const res = await fetch("http://localhost:5000/pets");
+      const res = await fetch(buildApiUrl("/pets"));
       if (!res.ok) throw new Error("Failed to fetch pets");
       const allPets: Pet[] = await res.json();
       setPets(allPets.map((p) => ({ ...p, medicalFiles: p.medicalFiles || [] })));
@@ -35,7 +36,7 @@ export function useUpdateMedical() {
         (p) => p.id !== undefined && userPetIds.includes(p.id)
       );
       setFilteredPets(filtered);
-      setSelectedPet((prev) => filtered.find((p) => p.id === prev?.id) || filtered[0] || null);
+      setSelectedPet((prev) => filtered.find((p) => p.id === prev?.id) || null);
     } else {
       setFilteredPets([]);
       setSelectedPet(null);
@@ -58,7 +59,7 @@ export function useUpdateMedical() {
     
     try {
       const payload = { ...newPet, userId: user.id };
-      const res = await fetch("http://localhost:5000/pets", {
+      const res = await fetch(buildApiUrl("/pets"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -79,7 +80,7 @@ export function useUpdateMedical() {
   const handleEditPet = async () => {
     if (!selectedPet || selectedPet.id === undefined) return;
     try {
-      const res = await fetch(`http://localhost:5000/pets/${selectedPet.id}`, {
+      const res = await fetch(buildApiUrl(`/pets/${selectedPet.id}`), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newPet),
@@ -98,7 +99,7 @@ export function useUpdateMedical() {
   /** Remove pet */
   const handleRemovePet = async (petId: number) => {
     try {
-      const res = await fetch(`http://localhost:5000/pets/${petId}`, {
+      const res = await fetch(buildApiUrl(`/pets/${petId}`), {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to delete pet");

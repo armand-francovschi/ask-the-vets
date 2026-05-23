@@ -35,8 +35,12 @@ export default function UpdateMedical() {
   } = useUpdateMedical();
 
   return (
-    <div className="md:ml-64 min-h-screen bg-background p-8 flex flex-col gap-8">
-      <h1 className="text-3xl font-bold text-primary-dark mb-4">Update Your Pet(s) Medical Info</h1>
+    <div className="md:ml-64 min-h-screen bg-background p-3 md:p-6">
+      <div className="max-w-7xl mx-auto rounded-2xl border border-primary-dark/15 bg-accent shadow-md p-4 md:p-5 space-y-4">
+        <div>
+          <h1 className="text-3xl md:text-4xl font-bold text-primary-dark">Medical Info</h1>
+          <p className="text-charcoal-blue">Review and manage your pet health records.</p>
+        </div>
 
 
     
@@ -61,6 +65,12 @@ export default function UpdateMedical() {
               onRemove={() => openRemoveModal(selectedPet)}
               setPreviewFile={setPreviewFile}
             />
+          )}
+
+          {!selectedPet && filteredPets.length > 0 && (
+            <div className="rounded-2xl border border-dashed border-primary-dark/25 bg-primary-light/25 p-8 text-center text-charcoal-blue">
+              Select a pet from Pet Overview to view details, files, and account actions.
+            </div>
           )}
 
           {uploadSuccess && <UploadSuccessNotification onClose={() => setUploadSuccess(false)} />}
@@ -95,6 +105,7 @@ export default function UpdateMedical() {
           )}
         </>
       )}
+      </div>
     </div>
   );
 }

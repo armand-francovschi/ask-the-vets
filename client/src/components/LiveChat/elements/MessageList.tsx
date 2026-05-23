@@ -10,15 +10,10 @@ type Props = {
 
 export default function MessageList({ messages, username, messagesEndRef }: Props) {
   return (
-    <div
-      className="flex-1 p-2 md:p-4 overflow-y-auto bg-gray-100"
-      style={{
-        maxHeight: "calc(100vh - 13.78rem )", // mobile: screen height minus top navbar & input box height
-      }}
-    >
+    <div className="flex-1 min-h-0 p-2 md:p-4 overflow-y-auto bg-background/70 text-primary-dark">
       {messages.map((m, i) => (
         <div key={i} className={m.from === username ? "text-right" : "text-left"}>
-          <span className={m.to ? "text-red-500" : "text-black"}>
+          <span className={`${m.to ? "text-accent-dark" : "text-primary-dark"} break-words`}>
             <strong>{m.from}</strong>
             {m.to ? " (private)" : ""}: {m.content}
           </span>

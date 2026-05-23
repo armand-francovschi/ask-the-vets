@@ -1,6 +1,7 @@
 import { useState} from "react";
 import type { FC } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { buildApiUrl } from "../../config/api";
 
 interface ProfileImageModalProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ const ProfileImageModal: FC<ProfileImageModalProps> = ({ isOpen, onClose }) => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch(`http://localhost:5000/users/${user.id}/profile-image`, {
+      const res = await fetch(buildApiUrl(`/users/${user.id}/profile-image`), {
         method: "POST",
         body: formData,
       });

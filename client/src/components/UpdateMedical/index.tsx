@@ -5,6 +5,7 @@ import PetCarousel from "./elements/PetCarousel";
 import PetModal from "./elements/PetModal";
 import RemovePetModal from "./elements/RemovePetModal";
 import FileUpload from "./functions/FileUpload";
+import { buildApiUrl } from "../../config/api";
 
 export default function UpdateMedical() {
     const [users, setUsers] = useState<User[]>([]);
@@ -20,7 +21,7 @@ export default function UpdateMedical() {
 const handleConfirmRemove = (petId?: number) => {
   if (!petId || !selectedUser) return;
 
-  fetch(`http://localhost:5000/pets/${petId}`, { method: "DELETE" })
+    fetch(buildApiUrl(`/pets/${petId}`), { method: "DELETE" })
     .then(res => res.json())
     .then(() => {
       setPets(prev => prev.filter(p => p.id !== petId));
@@ -28,12 +29,12 @@ const handleConfirmRemove = (petId?: number) => {
       setIsRemoveModalOpen(false);
 
       // Remove from user's pet list
-    setUsers(prev =>
-  prev.map(u =>
-    u.id === selectedUser.id
-      ? { ...u, pets: u.pets.filter(p => p !== petId) } // p is a number
-      : u
-  )
+        setUsers(prev =>
+    prev.map(u =>
+        u.id === selectedUser.id
+            ? { ...u, pets: (u.pets || []).filter(p => p !== petId) }
+            : u
+    )
 );
 
     })
@@ -42,8 +43,8 @@ const handleConfirmRemove = (petId?: number) => {
 
     useEffect(() => {
         Promise.all([
-            fetch("http://localhost:5000/users").then(res => res.json()),
-            fetch("http://localhost:5000/pets").then(res => res.json())
+            fetch(buildApiUrl("/users")).then(res => res.json()),
+            fetch(buildApiUrl("/pets")).then(res => res.json())
         ])
             .then(([usersData, petsData]: [User[], Pet[]]) => {
                 const petsWithFiles = petsData.map((p: Pet) => ({
@@ -57,7 +58,7 @@ const handleConfirmRemove = (petId?: number) => {
     }, []);
 
 const filteredPets = selectedUser
-    ? pets.filter(pet => selectedUser.pets.includes(pet.id!))
+    ? pets.filter(pet => (selectedUser.pets || []).includes(pet.id!))
     : pets;
 
 

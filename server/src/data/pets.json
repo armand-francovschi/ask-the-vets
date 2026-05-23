@@ -42,5 +42,46 @@
       "1772029125890-928258567-Persian-Cats_8f842135-8977-4252-8af6-48c53182d9d0.jpg"
     ],
     "image": "1772029008649-570780329-Persian-Cats_8f842135-8977-4252-8af6-48c53182d9d0.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Talrasha",
+    "type": "Bird",
+    "breed": "Caucasian",
+    "age": 25,
+    "medicalFiles": []
+  },
+  {
+    "id": 6,
+    "name": "Mircea",
+    "type": "Cat",
+    "breed": "European short-hair",
+    "age": 2,
+    "medicalFiles": []
+  },
+  {
+    "id": 7,
+    "name": "Bile",
+    "type": "Bird",
+    "breed": "Cockatoo",
+    "age": 24,
+    "medicalFiles": []
+  },
+  {
+    "id": 8,
+    "name": "Bango",
+    "type": "Bird",
+    "breed": "Sexy",
+    "age": 14,
+    "medicalFiles": [],
+    "image": "1779556277955-922601113-IMG_0342.jpeg"
+  },
+  {
+    "id": 9,
+    "name": "Gigi",
+    "type": "Bird",
+    "breed": "Mangusta",
+    "age": 5,
+    "medicalFiles": []
   }
 ]

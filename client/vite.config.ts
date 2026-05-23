@@ -7,6 +7,33 @@ export default defineConfig({
   server: {
   host: true,
     strictPort: false,
-    allowedHosts: true
+    allowedHosts: true,
+    proxy: {
+      "/auth": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+      "/users": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+      "/pets": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+      "/uploads": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
+      "/socket.io": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        ws: true,
+      },
+    },
   }
 })

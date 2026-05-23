@@ -60,16 +60,28 @@ export const register = (req: Request, res: Response) => {
 };
 
 export const login = (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.status(400).json({ message: "Missing fields" });
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: "Missing fields" });
 
-  const users = readUsers();
-  const user = users.find(u => u.email === email);
-  if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    const users = readUsers();
+    const user = users.find(u => u.email === email);
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
-  const isMatch = bcrypt.compareSync(password, user.password);
-  if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+    let isMatch = false;
+    try {
+      isMatch = bcrypt.compareSync(password, user.password);
+    } catch (compareErr) {
+      console.error("Password compare failed:", compareErr);
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-  const token = signToken({ id: user.id, role: user.role });
-  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+
+    const token = signToken({ id: user.id, role: user.role });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  } catch (err) {
+    console.error("Login failed with server error:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };

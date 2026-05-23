@@ -1,5 +1,6 @@
 import type { Pet } from "../../../types";
 import type { Dispatch, SetStateAction } from "react";
+import { buildApiUrl } from "../../../config/api";
 
 interface FileUploadProps {
   pet: Pet;
@@ -15,7 +16,7 @@ export default function FileUpload({ pet, setPet }: FileUploadProps) {
     formData.append("file", e.target.files[0]);
 
     try {
-      const res = await fetch(`http://localhost:5000/pets/${pet.id}/medical-file`, {
+      const res = await fetch(buildApiUrl(`/pets/${pet.id}/medical-file`), {
         method: "POST",
         body: formData,
       });
@@ -38,9 +39,17 @@ export default function FileUpload({ pet, setPet }: FileUploadProps) {
     <>
       <label
         htmlFor="file-upload"
-        className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark transition cursor-pointer text-center"
+        className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition cursor-pointer flex items-center justify-center gap-2"
       >
-        Add more medical files
+        <span aria-hidden="true" className="inline-flex text-white shrink-0">
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <path d="M14 2v6h6" />
+            <path d="M12 11v6" />
+            <path d="M9 14h6" />
+          </svg>
+        </span>
+        <span>Add more medical files</span>
       </label>
       <input id="file-upload" type="file" className="hidden" onChange={handleFileUpload} />
     </>

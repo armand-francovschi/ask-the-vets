@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
+import { SOCKET_BASE_URL } from "../../../config/api";
 
 export type Message = {
   from: string;
@@ -33,7 +34,7 @@ export function useLiveChat() {
   // Socket connection
   useEffect(() => {
     if (!username) return;
-    const newSocket = io("http://localhost:5000");
+    const newSocket = io(SOCKET_BASE_URL);
     setSocket(newSocket);
     newSocket.emit("join", username);
 

@@ -7,6 +7,8 @@ import {
 	getDoctors,
 	getDoctorAvailability,
 	bookDoctorSlot,
+	createBookingPaymentSession,
+	confirmBookingPayment,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import multer from "multer";
@@ -28,6 +30,12 @@ router.get("/me", authMiddleware, getCurrentUser);
 
 // Get upcoming schedule for current doctor
 router.get("/me/schedule", authMiddleware, getDoctorSchedule);
+
+// Start Stripe checkout for a booking
+router.post("/bookings/:bookingId/pay", authMiddleware, createBookingPaymentSession);
+
+// Confirm a successful Stripe payment after redirect back to the app
+router.post("/bookings/payment/confirm", confirmBookingPayment);
 
 // Book a slot with a doctor
 router.post("/bookings", authMiddleware, bookDoctorSlot);
