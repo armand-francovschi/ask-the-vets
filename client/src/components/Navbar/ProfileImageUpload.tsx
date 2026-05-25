@@ -24,13 +24,19 @@ const ProfileImageModal: FC<ProfileImageModalProps> = ({ isOpen, onClose }) => {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem("token");
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("image", file);
 
-      const res = await fetch(buildApiUrl(`/users/${user.id}/profile-image`), {
-        method: "POST",
+      const res = await fetch(buildApiUrl("/users/me/image"), {
+        method: "PUT",
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         body: formData,
       });
+
+      if (!res.ok) {
+        throw new Error(`Upload failed (${res.status})`);
+      }
 
       const data = await res.json();
       if (data.filename) {

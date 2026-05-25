@@ -1,6 +1,9 @@
-type Props = { 
-  users: string[]; 
-  openPrivateTab: (user: string) => void; 
+import { buildApiUrl } from "../../../config/api";
+import type { ChatUser } from "../functions/useLiveChat";
+
+type Props = {
+  users: ChatUser[];
+  openPrivateTab: (user: ChatUser) => void;
   showUserDropdown: boolean; 
   setShowUserDropdown: (b: boolean) => void; 
   username: string; 
@@ -21,9 +24,16 @@ export default function UserSidebar({ users, openPrivateTab, showUserDropdown, s
 
       {/* User List */}
       <div className={`transition-all duration-300 overflow-hidden ${showUserDropdown ? "max-h-[36vh] opacity-100" : "max-h-0 opacity-0"} md:max-h-full md:opacity-100`}>
-        {users.map(u => (
-          <div key={u} className="cursor-pointer p-2 rounded hover:bg-accent/70" onClick={() => openPrivateTab(u)}>
-            {u} {u === username && "(You)"}
+        {users.map((u) => (
+          <div key={u.name} className="cursor-pointer p-2 rounded hover:bg-accent/70 flex items-center gap-2" onClick={() => openPrivateTab(u)}>
+            <img
+              src={u.image ? buildApiUrl(`/uploads/${u.image}`) : "/icons/document-icon.png"}
+              alt={`${u.name} profile`}
+              className="h-6 w-6 rounded-full object-cover border border-primary-dark/25"
+            />
+            <span>
+              {u.name} {u.name === username && "(You)"}
+            </span>
           </div>
         ))}
       </div>

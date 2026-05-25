@@ -11,7 +11,7 @@ const usersPath = path.join(process.cwd(), "src/data/users.json");
 const schedulesPath = path.join(process.cwd(), "src/data/schedules.json");
 const paymentsPath = path.join(process.cwd(), "src/data/payments.json");
 const petsPath = path.join(process.cwd(), "src/data/pets.json");
-const uploadsDir = path.join(process.cwd(), "uploads");
+const uploadsDir = path.join(process.cwd(), "src", "uploads");
 const clientUrl = process.env.CLIENT_URL?.trim() || "http://localhost:5173";
 const bookingAmountCents = Number(process.env.STRIPE_BOOKING_AMOUNT_CENTS || "5000");
 
@@ -475,6 +475,21 @@ export const uploadProfileImage = (req: AuthRequest, res: Response) => {
   if (!user) return res.status(404).json({ error: "User not found" });
   if (!req.file?.filename) return res.status(400).json({ error: "No file uploaded" });
 
+  let savedFilename = req.file.filename;
+  const hasExtension = path.extname(savedFilename).length > 0;
+  if (!hasExtension && req.file.mimetype?.startsWith("image/")) {
+    const extension = req.file.mimetype.split("/")[1] || "jpg";
+    const normalizedExtension = extension === "jpeg" ? "jpg" : extension;
+    const filenameWithExtension = `${savedFilename}.${normalizedExtension}`;
+    const oldPath = path.join(uploadsDir, savedFilename);
+    const newPath = path.join(uploadsDir, filenameWithExtension);
+
+    if (fs.existsSync(oldPath)) {
+      fs.renameSync(oldPath, newPath);
+      savedFilename = filenameWithExtension;
+    }
+  }
+
   // Delete old image
   if (user.image) {
     const oldPath = path.join(uploadsDir, user.image);
@@ -482,8 +497,8 @@ export const uploadProfileImage = (req: AuthRequest, res: Response) => {
   }
 
   // Save new image
-  user.image = req.file.filename;
+  user.image = savedFilename;
   writeJSON(usersPath, users);
 
-  res.json({ filename: req.file.filename });
+  res.json({ filename: savedFilename });
 };

@@ -2,10 +2,26 @@ import { useState, useEffect, useRef } from "react";
 import { io, Socket } from "socket.io-client";
 import { SOCKET_BASE_URL } from "../../../config/api";
 
+const CHAT_DEBUG =
+  import.meta.env.DEV &&
+  (import.meta.env.VITE_CHAT_DEBUG === "true" ||
+    (typeof window !== "undefined" && window.localStorage.getItem("chatDebug") === "1"));
+
+const chatDebugLog = (...args: unknown[]) => {
+  if (!CHAT_DEBUG) return;
+  console.debug("[LiveChat]", ...args);
+};
+
+export type ChatUser = {
+  name: string;
+  image?: string;
+};
+
 export type Message = {
   from: string;
   content: string;
   to?: string;
+  fromImage?: string;
 };
 
 export type ChatTab = {
@@ -16,11 +32,15 @@ export type ChatTab = {
 
 export function useLiveChat() {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [users, setUsers] = useState<string[]>([]);
+  const socketRef = useRef<Socket | null>(null);
+  const [users, setUsers] = useState<ChatUser[]>([]);
   const [tabs, setTabs] = useState<ChatTab[]>([{ name: "General", messages: [], unread: false }]);
   const [activeTab, setActiveTab] = useState("General");
+  const activeTabRef = useRef("General");
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const usernameRef = useRef("");
+  const [profileImage, setProfileImage] = useState<string>("");
   const [inputName, setInputName] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
@@ -31,27 +51,48 @@ export function useLiveChat() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [tabs, activeTab]);
 
+  useEffect(() => {
+    activeTabRef.current = activeTab;
+  }, [activeTab]);
+
+  useEffect(() => {
+    usernameRef.current = username;
+  }, [username]);
+
   // Socket connection
   useEffect(() => {
     if (!username) return;
     const newSocket = io(SOCKET_BASE_URL);
     setSocket(newSocket);
-    newSocket.emit("join", username);
+    socketRef.current = newSocket;
+    chatDebugLog("socket connect", { socketId: newSocket.id, username, profileImage });
+    newSocket.emit("join", { name: username, image: profileImage || undefined });
 
-    const handleUserList = (list: string[]) => setUsers(list);
+    const handleUserList = (list: Array<string | ChatUser>) => {
+      const normalized = list.map((entry) => {
+        if (typeof entry === "string") {
+          return { name: entry };
+        }
+
+        return { name: entry.name, image: entry.image };
+      });
+      setUsers(normalized);
+      chatDebugLog("userList", normalized.map((u) => u.name));
+    };
     const handlePublicMessage = (msg: Message) => {
       setTabs(prev => prev.map(tab => tab.name === "General"
-        ? { ...tab, messages: [...tab.messages, msg], unread: activeTab !== "General" }
+        ? { ...tab, messages: [...tab.messages, msg], unread: activeTabRef.current !== "General" }
         : tab
       ));
     };
     const handlePrivateMessage = (msg: Message) => {
-      const tabName = msg.from === username ? msg.to || "" : msg.from;
+      const tabName = msg.from === usernameRef.current ? msg.to || "" : msg.from;
+      chatDebugLog("privateMessage received", { msg, tabName, activeTab: activeTabRef.current });
       setTabs(prev => {
         const existing = prev.find(t => t.name === tabName);
-        if (!existing) return [...prev, { name: tabName, messages: [msg], unread: activeTab !== tabName }];
+        if (!existing) return [...prev, { name: tabName, messages: [msg], unread: activeTabRef.current !== tabName }];
         return prev.map(t => t.name === tabName
-          ? { ...t, messages: [...t.messages, msg], unread: activeTab !== tabName }
+          ? { ...t, messages: [...t.messages, msg], unread: activeTabRef.current !== tabName }
           : t
         );
       });
@@ -62,23 +103,34 @@ export function useLiveChat() {
     newSocket.on("privateMessage", handlePrivateMessage);
 
     return () => {
+      chatDebugLog("socket disconnect", { socketId: newSocket.id, username });
       newSocket.disconnect();
+      if (socketRef.current === newSocket) {
+        socketRef.current = null;
+      }
     };
-  }, [username, activeTab]);
+  }, [username, profileImage]);
 
   const sendMessage = () => {
-    if (!socket || !message.trim()) return;
+    const activeSocket = socketRef.current || socket;
+    if (!activeSocket || !message.trim()) return;
     const msgData: Message = { from: username, content: message, to: activeTab === "General" ? undefined : activeTab };
-    if (msgData.to) socket.emit("privateMessage", msgData);
-    else socket.emit("sendMessage", msgData);
+    if (msgData.to) {
+      chatDebugLog("privateMessage send", { msgData, socketId: activeSocket.id });
+      activeSocket.emit("privateMessage", msgData);
+    } else {
+      activeSocket.emit("sendMessage", msgData);
+    }
     setMessage("");
   };
 
-  const openPrivateTab = (user: string) => {
-    if (user === username) return;
-    if (!tabs.find(t => t.name === user)) setTabs(prev => [...prev, { name: user, messages: [], unread: false }]);
-    setActiveTab(user);
-    setTabs(prev => prev.map(t => t.name === user ? { ...t, unread: false } : t));
+  const openPrivateTab = (user: string | ChatUser) => {
+    const targetName = typeof user === "string" ? user : user.name;
+    chatDebugLog("openPrivateTab", { targetName, currentUser: username });
+    if (targetName === username) return;
+    if (!tabs.find(t => t.name === targetName)) setTabs(prev => [...prev, { name: targetName, messages: [], unread: false }]);
+    setActiveTab(targetName);
+    setTabs(prev => prev.map(t => t.name === targetName ? { ...t, unread: false } : t));
     setShowUserDropdown(false);
   };
 
@@ -105,9 +157,9 @@ export function useLiveChat() {
   };
 
   return {
-    users, tabs, activeTab, message, username, inputName,
+    users, tabs, activeTab, message, username, profileImage, inputName,
     showEmojiPicker, showUserDropdown, messagesEndRef,
-    setMessage, setUsername, setInputName, setShowEmojiPicker,
+    setMessage, setUsername, setProfileImage, setInputName, setShowEmojiPicker,
     setShowUserDropdown, sendMessage, openPrivateTab,
     closeTab, switchTab, moveTab, addEmoji
   };

@@ -24,13 +24,21 @@ export function LiveChatProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (user?.name && chat.username !== user.name) {
       chat.setUsername(user.name);
+    }
+
+    if (user?.image && chat.profileImage !== user.image) {
+      chat.setProfileImage(user.image);
+    }
+
+    if (user?.name) {
       return;
     }
 
     if (!user && chat.username && !chat.username.endsWith(" (Guest)")) {
       chat.setUsername("");
+      chat.setProfileImage("");
     }
-  }, [user?.name, chat.username]);
+  }, [user?.name, user?.image, chat.username, chat.profileImage]);
 
   const value = useMemo(
     () => ({

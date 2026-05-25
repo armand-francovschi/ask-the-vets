@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Pet } from "../../../types";
 import { useAuth } from "../../../context/AuthContext";
 import { buildApiUrl } from "../../../config/api";
 
 export function useUpdateMedical() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [pets, setPets] = useState<Pet[]>([]);
   const [filteredPets, setFilteredPets] = useState<Pet[]>([]);
   const [selectedPet, setSelectedPet] = useState<Pet | null>(null);
@@ -71,6 +73,7 @@ export function useUpdateMedical() {
       setNewPet({ name: "", type: "", breed: "", age: 0 });
       setIsAddModalOpen(false);
       setUploadSuccess(true);
+      navigate("/update-medical", { replace: true });
     } catch (err) {
       console.error(err);
     }

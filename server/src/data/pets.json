@@ -72,7 +72,7 @@
     "name": "Bango",
     "type": "Bird",
     "breed": "Sexy",
-    "age": 14,
+    "age": 67,
     "medicalFiles": [],
     "image": "1779556277955-922601113-IMG_0342.jpeg"
   },
@@ -82,6 +82,14 @@
     "type": "Bird",
     "breed": "Mangusta",
     "age": 5,
+    "medicalFiles": []
+  },
+  {
+    "id": 10,
+    "name": "Bongo",
+    "type": "Dog",
+    "breed": "Sexy ass",
+    "age": 67,
     "medicalFiles": []
   }
 ]

@@ -3,9 +3,31 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+const CHAT_DEBUG =
+  process.env.CHAT_DEBUG === "1" ||
+  process.env.CHAT_DEBUG === "true";
+
+const chatDebugLog = (...args: unknown[]) => {
+  if (!CHAT_DEBUG) return;
+  console.log("[ChatSocket]", ...args);
+};
+
 interface User {
   id: string;
   name: string;
+  image?: string;
+}
+
+interface ChatMessage {
+  from: string;
+  content: string;
+  to?: string;
+  fromImage?: string;
+}
+
+interface PersistedUser {
+  name: string;
+  image?: string;
 }
 
 interface ScheduleEntry {
@@ -21,6 +43,7 @@ const socketToCallRoom: Record<string, string> = {};
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const schedulesPath = path.join(__dirname, "..", "data", "schedules.json");
+const usersPath = path.join(__dirname, "..", "data", "users.json");
 
 const readSchedules = (): ScheduleEntry[] => {
   try {
@@ -31,24 +54,52 @@ const readSchedules = (): ScheduleEntry[] => {
   }
 };
 
+const readUsers = (): PersistedUser[] => {
+  try {
+    const raw = fs.readFileSync(usersPath, "utf-8");
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const resolveUserImage = (name: string) => {
+  const match = readUsers().find((u) => u?.name === name);
+  return match?.image;
+};
+
 export const registerChatSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
     console.log(`Client connected: ${socket.id}`);
 
     // When a user joins, add to users object
-    socket.on("join", (name: string) => {
+    socket.on("join", (payload: string | { name?: string; image?: string }) => {
+      const name = typeof payload === "string" ? payload : payload?.name;
       if (!name) return;
 
-      users[socket.id] = { id: socket.id, name };
+      const resolvedImage = (typeof payload === "object" ? payload?.image : undefined) || resolveUserImage(name);
+
+      users[socket.id] = {
+        id: socket.id,
+        name,
+        ...(resolvedImage ? { image: resolvedImage } : {}),
+      };
       console.log("Users:", users);
 
       // Broadcast updated list to all clients
-      io.emit("userList", Object.values(users).map((u) => u.name));
+      io.emit("userList", Object.values(users).map((u) => ({ name: u.name, image: u.image })));
+      chatDebugLog("join", { socketId: socket.id, name, users: Object.values(users).map((u) => u.name) });
     });
 
     // Public message
     socket.on("sendMessage", (data: { from: string; content: string }) => {
-      io.emit("message", data);
+      const sender = users[socket.id];
+      const messagePayload: ChatMessage = {
+        ...data,
+        ...(sender?.image ? { fromImage: sender.image } : {}),
+      };
+      io.emit("message", messagePayload);
     });
 
     // Private message
@@ -59,9 +110,27 @@ export const registerChatSocket = (io: Server) => {
         (id) => users[id]?.name === data.to
       );
 
+      chatDebugLog("privateMessage incoming", {
+        from: data.from,
+        to: data.to,
+        senderSocketId: socket.id,
+        recipientSocketId,
+      });
+
+      const sender = users[socket.id];
+      const messagePayload: ChatMessage = {
+        ...data,
+        ...(sender?.image ? { fromImage: sender.image } : {}),
+      };
+
       if (recipientSocketId) {
-        io.to(recipientSocketId).emit("privateMessage", data); // to recipient
-        socket.emit("privateMessage", data); // also to sender
+        io.to(recipientSocketId).emit("privateMessage", messagePayload); // to recipient
+        socket.emit("privateMessage", messagePayload); // also to sender
+      } else {
+        chatDebugLog("privateMessage recipient-missing", {
+          to: data.to,
+          onlineUsers: Object.values(users).map((u) => u.name),
+        });
       }
     });
 
@@ -140,7 +209,7 @@ export const registerChatSocket = (io: Server) => {
         delete socketToCallRoom[socket.id];
       }
       delete users[socket.id];
-      io.emit("userList", Object.values(users).map((u) => u.name));
+      io.emit("userList", Object.values(users).map((u) => ({ name: u.name, image: u.image })));
       console.log(`Client disconnected: ${socket.id}`);
     });
   });

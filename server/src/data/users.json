@@ -79,5 +79,16 @@
     "pets": [
       9
     ]
+  },
+  {
+    "id": 9,
+    "name": "sexy",
+    "email": "2@test.com",
+    "password": "$2b$10$h4dQ.ARx.3AN7jy6vHx0sOx2UMX3zx5iPufawQcVBlpJO/98GnZLS",
+    "role": "user",
+    "pets": [
+      10
+    ],
+    "image": "450993d1b21259d2c7db19dad66c60fa.jpg"
   }
 ]

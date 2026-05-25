@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": 1,
+    "createdAt": "2026-05-25T09:48:04.406Z",
+    "sessionId": "cs_test_a1CNQgxYv87VY53klstB5n9lTOSloeJBn8FzaqFsvFlx6wEDHP2l8iHQGR",
+    "bookingId": 5,
+    "paymentStatus": "paid",
+    "amountTotal": 5000,
+    "currency": "usd",
+    "updatedAt": "2026-05-25T09:48:04.518Z",
+    "ownerId": 3,
+    "paymentIntentId": "pi_3Tav734IH9eKwJI016hCGq87",
+    "customerEmail": "francovschi.armand.e9u@student.ucv.ro"
+  }
+]

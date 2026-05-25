@@ -11,10 +11,9 @@ import {
 	confirmBookingPayment,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
-import multer from "multer";
+import { upload } from "../middlewares/uploadMiddleware.js";
 
 const router = Router();
-const upload = multer({ dest: "./uploads" });
 
 // Get all users (optional, admin use)
 router.get("/", getUsers);

@@ -80,6 +80,7 @@ export default function LiveChatPopup() {
                 />
                 <MessageList
                   messages={currentMessages}
+                  users={chat.users}
                   username={chat.username}
                   messagesEndRef={chat.messagesEndRef}
                 />

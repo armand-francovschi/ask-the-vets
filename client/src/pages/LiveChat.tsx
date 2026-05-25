@@ -65,6 +65,7 @@ export default function LiveChat() {
             />
             <MessageList
               messages={currentMessages}
+              users={chat.users}
               username={chat.username}
               messagesEndRef={chat.messagesEndRef}
             />

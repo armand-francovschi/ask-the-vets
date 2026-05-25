@@ -7,6 +7,7 @@ import { buildApiUrl } from "../config/api";
 
 interface AuthContextType {
   user: User | null;
+  isAuthLoading: boolean;
   setUser: (user: User | null) => void;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
@@ -27,11 +28,15 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   // Load user from token on mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!token) {
+      setIsAuthLoading(false);
+      return;
+    }
 
     const fetchCurrentUser = async () => {
       try {
@@ -44,6 +49,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       } catch (err) {
         console.error(err);
         localStorage.removeItem("token");
+      } finally {
+        setIsAuthLoading(false);
       }
     };
 
@@ -81,7 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isAuthLoading, setUser, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

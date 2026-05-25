@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaUserMd, FaPaw, FaCalendarAlt } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import ProfileImageModal from "./ProfileImageUpload";
@@ -9,6 +9,13 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false); // profile modal
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+    navigate("/");
+  };
 
   useEffect(() => {
     const closeOnEditableFocus = (event: FocusEvent) => {
@@ -83,7 +90,7 @@ export default function Navbar() {
                 <span className="text-sm font-semibold">User Profile</span>
               </button>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="px-3 py-1.5 bg-primary-dark text-white rounded-lg hover:opacity-90"
               >
                 Logout
@@ -139,7 +146,7 @@ export default function Navbar() {
                   <span className="px-3 py-1 bg-accent text-primary-dark rounded-full font-semibold">{user.name}</span>
                 </div>
                 <button
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 w-full"
                 >
                   Logout
