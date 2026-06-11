@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from "react-icons/fa";
 import { registerUser } from "../../api/auth";
 
 export default function Register() {
@@ -9,12 +8,17 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("Registration successful! Check your email to verify your account.");
+  const [verificationUrl, setVerificationUrl] = useState("");
 
   const handleRegister = async () => {
     try {
       setError("");
+      setSuccess(false);
+      setVerificationUrl("");
       const res = await registerUser(name, email, password);
-      console.log("Registered user:", res);
+      setSuccessMessage(res.message || "Registration successful! Check your email to verify your account.");
+      setVerificationUrl(res.verificationUrl || "");
       setSuccess(true);
     } catch (err: any) {
       setError(err.message || "Registration failed");
@@ -52,22 +56,15 @@ export default function Register() {
             <div className="w-full max-w-md text-center">
               <h1 className="text-4xl font-bold text-primary mb-5">Create Account</h1>
 
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                  <FaFacebookF />
-                </button>
-                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                  <FaGooglePlusG />
-                </button>
-                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                  <FaLinkedinIn />
-                </button>
-              </div>
-
-              <p className="text-sm text-charcoal-blue/80 mb-5">or use your email for registration:</p>
+              <p className="text-sm text-charcoal-blue/80 mb-5">Use your email for registration:</p>
 
               {error && <p className="mb-3 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">{error}</p>}
-              {success && <p className="mb-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">Registration successful!</p>}
+              {success && <p className="mb-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">{successMessage}</p>}
+              {verificationUrl && (
+                <p className="mb-3 rounded-lg bg-blue-50 border border-blue-200 px-3 py-2 text-sm text-blue-800 break-all">
+                  Dev verification link: <a href={verificationUrl} className="underline">{verificationUrl}</a>
+                </p>
+              )}
 
               <div className="space-y-3 text-left">
                 <input

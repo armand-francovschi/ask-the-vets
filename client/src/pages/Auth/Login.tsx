@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGooglePlusG, FaLinkedinIn } from "react-icons/fa";
+import { resendVerificationEmail } from "../../api/auth";
 
 type LoginLocationState = {
     authPrompt?: string;
@@ -11,6 +11,9 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [resendMessage, setResendMessage] = useState("");
+    const [verificationUrl, setVerificationUrl] = useState("");
+    const [isResending, setIsResending] = useState(false);
 
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -20,6 +23,8 @@ export default function Login() {
     const handleLogin = async () => {
         try {
             setError("");
+            setResendMessage("");
+            setVerificationUrl("");
             await login(email, password);
 
             // Navigate to home
@@ -27,6 +32,26 @@ export default function Login() {
         } catch (err: any) {
             console.error(err);
             setError(err.message || "Login failed");
+        }
+    };
+
+    const handleResendVerification = async () => {
+        if (!email.trim()) {
+            setError("Enter your email first, then resend verification.");
+            return;
+        }
+
+        try {
+            setIsResending(true);
+            setResendMessage("");
+            setVerificationUrl("");
+            const res = await resendVerificationEmail(email.trim());
+            setResendMessage(res.message || "Verification email sent. Please check your inbox.");
+            setVerificationUrl(res.verificationUrl || "");
+        } catch (err: any) {
+            setError(err.message || "Failed to resend verification email");
+        } finally {
+            setIsResending(false);
         }
     };
 
@@ -67,21 +92,15 @@ export default function Login() {
 
                             <h1 className="text-4xl font-bold text-primary mb-5">Sign In</h1>
 
-                            <div className="flex items-center justify-center gap-3 mb-6">
-                                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                                    <FaFacebookF />
-                                </button>
-                                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                                    <FaGooglePlusG />
-                                </button>
-                                <button type="button" className="h-10 w-10 rounded-full border border-primary-dark/15 text-primary-dark flex items-center justify-center hover:bg-accent/50">
-                                    <FaLinkedinIn />
-                                </button>
-                            </div>
-
-                            <p className="text-sm text-charcoal-blue/80 mb-5">or use your account credentials:</p>
+                            <p className="text-sm text-charcoal-blue/80 mb-5">Use your account credentials:</p>
 
                             {error && <p className="mb-3 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">{error}</p>}
+                            {resendMessage && <p className="mb-3 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm text-green-700">{resendMessage}</p>}
+                            {verificationUrl && (
+                                <p className="mb-3 rounded-lg bg-blue-50 border border-blue-200 px-3 py-2 text-sm text-blue-800 break-all">
+                                    Dev verification link: <a href={verificationUrl} className="underline">{verificationUrl}</a>
+                                </p>
+                            )}
 
                             <div className="space-y-3 text-left">
                                 <input
@@ -107,6 +126,17 @@ export default function Login() {
                             >
                                 SIGN IN
                             </button>
+
+                            {error.toLowerCase().includes("verify your email") && (
+                                <button
+                                    type="button"
+                                    onClick={handleResendVerification}
+                                    disabled={isResending}
+                                    className="mt-3 w-full rounded-full border border-primary-dark/20 bg-white px-6 py-3 text-sm font-semibold tracking-wide text-primary-dark hover:bg-accent/30 disabled:opacity-70"
+                                >
+                                    {isResending ? "RESENDING..." : "RESEND VERIFICATION EMAIL"}
+                                </button>
+                            )}
                         </div>
                     </section>
         </div>

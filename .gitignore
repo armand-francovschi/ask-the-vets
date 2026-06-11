@@ -4,3 +4,5 @@ server/src/uploads/1768827438278-IMG_2012.PNG
 server/src/uploads/1768827531962-IMG_2003.HEIC
 client/.env
 server/.env
+server/node_modules/
+client/node_modules/

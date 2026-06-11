@@ -12,8 +12,15 @@ import PaymentFailed from "./pages/PaymentFailed";
 import Navbar from "./components/Navbar/Navbar";
 import LiveChatPopup from "./components/LiveChat/LiveChatPopup";
 import ChatLauncher from "./components/LiveChat/ChatLauncher";
+import Footer from "./components/Footer/Footer";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import VerifyEmail from "./pages/Auth/VerifyEmail";
+import PrivacyPolicy from "./pages/Legal/PrivacyPolicy";
+import TermsOfService from "./pages/Legal/TermsOfService";
+import CookiePolicy from "./pages/Legal/CookiePolicy";
+import About from "./pages/Legal/About";
+import ContactUs from "./pages/Legal/ContactUs";
 import TextChat from "./components/ContactVet/TextChat";
 import MedicalAnalysis from "./components/ContactVet/MedicalAnalysis";
 import VideoCall from "./components/ContactVet/VideoCall";
@@ -95,6 +102,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/contact-vet" element={<RequireAuth><ContactVet /></RequireAuth>} />
           <Route path="/contact-vet/medical-analysis" element={<RequireAuth><MedicalAnalysis /></RequireAuth>} />
           <Route path="/contact-vet/chat" element={<RequireAuth><TextChat /></RequireAuth>} />
@@ -108,6 +121,7 @@ function App() {
           <Route path="/payment-failed" element={<PaymentFailed />} />
         </Routes>
       </div>
+      <Footer />
       <ChatLauncher />
       <LiveChatPopup />
     </>

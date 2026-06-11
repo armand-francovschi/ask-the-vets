@@ -90,5 +90,25 @@
       10
     ],
     "image": "450993d1b21259d2c7db19dad66c60fa.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Armand",
+    "email": "francovschi.armand@gmail.com",
+    "password": "$2b$10$s43/MQ5tHYMiKVBSDzFOB.vBpkUTq/qymgdfFnO/ozDVp6dheNgoC",
+    "role": "user",
+    "pets": [],
+    "emailVerified": false,
+    "emailVerificationTokenHash": "af0e25a452b20cfa494750adfc85af378e9464ef0d9eccd48ae79a625ed85322",
+    "emailVerificationExpiresAt": "2026-05-26T11:13:36.675Z"
+  },
+  {
+    "id": 12,
+    "name": "Armand",
+    "email": "getsloow1@gmail.com",
+    "password": "$2b$10$Yu3UFpROjSuxq16dVHGZjuAait1NqC1P3aYZOkUmKsrrPNfaUfAPa",
+    "role": "user",
+    "pets": [],
+    "emailVerified": true
   }
 ]
